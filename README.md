@@ -8,11 +8,12 @@
 ![GBHMpic](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/f70a72aeeb7ff64372870a27932735f4388d0690/images/GBHMpic.png)
 
 ## 回测结果
-策略选取的标的是沪深300和中证500成分股，在中信自研的CATS量化平台上执行回测，每日持仓5-10只股票，基准是沪深300，回测时间2019年-2021年，文件详见GBH_strategy.py，模型表现如下：<br>
+策略选取的标的是沪深300和中证500成分股，在中信自研的CATS量化平台上执行回测，每日持仓5-10只股票，基准是沪深300，回测时间2019年-2021年，股票每笔交易时买入佣金万分之三，卖出佣金万分之三，卖出时千分之一印花税, 每笔交易佣金最低扣5块钱，文件详见GBH_strategy.py，模型表现如下：<br>
 
-    年化收益率29.42% 阿尔法12.85% 贝塔0.81 夏普比率1.24 收益率波动22.87% 信息比率0.57 最大回撤21.53%
+    年化收益率29.42% 阿尔法12.85% 贝塔0.81 夏普比率1.24 收益率波动22.87% 信息比率0.57 (整个回测周期)最大回撤21.53%
 
 ![yieldcurve](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/4615263da66f0fdbb1390738cbc5a1523ee4ef49/images/yield%20curve.png)
+![stocktrend](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/132f67bc26eef1042d66eadf512df128cf18ea1e/images/logstocktrend.png)
 ## 注意事项
 代码中已考虑停牌、新股上市数据异常、节假日重叠、往年节假日可能不休市等情况，在代码文件的备注中有所体现。
 
