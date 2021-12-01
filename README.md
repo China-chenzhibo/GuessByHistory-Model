@@ -1,22 +1,24 @@
 # Guess By History Model
 
 ## 模型介绍
-这是一种基于统计概率方法的预测模型，认为存在某些产业、个股一年内在部分区间或者节假日前后涨跌一致，统计历史数据，预测涨跌概率/走势形态，并且给出粗择时建议。 <br> <br>
+这是一种基于统计概率方法的预测模型，认为存在某些产业、个股一年内在部分区间或者节假日前后涨跌一致，统计同时期的历史数据，预测涨跌概率/走势形态，并且给出粗择时建议。 <br> <br>
 根据查询日期，判断所处是否为节假日前后或者是正常交易日，自动追溯往年同一时期涨跌平情况及走势形态，如果是节假日的前/后会定位到上一个节假日的前/后，如果是普通交易日则取往年的一周数据。个股及各类指数数据的标的代码在IndexData这个文件中。
 下图是模型的框架预览，如果打开不了图片，可以自行搜索[解决方案](https://blog.csdn.net/qq_38232598/article/details/91346392)，修改hosts对github的域名解析。
 
-![image](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/f70a72aeeb7ff64372870a27932735f4388d0690/images/GBHMpic.png)
+![GBHMpic](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/f70a72aeeb7ff64372870a27932735f4388d0690/images/GBHMpic.png)
 
 ## 回测结果
-在中信自研的CATS量化平台上回测，文件详见GBH_strategy.py，模型表现如下：
+在中信自研的CATS量化平台上回测，文件详见GBH_strategy.py，模型表现如下：<br>
 
+    年化收益率是29.42% 阿尔法12.85% 贝塔0.81 夏普比率1.24 收益率波动22.87% 信息比率0.57 最大回撤21.53%
 
+![yieldcurve](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/4615263da66f0fdbb1390738cbc5a1523ee4ef49/images/yield%20curve.png)
 ## 注意事项
 代码中已考虑停牌、新股上市数据异常、节假日重叠、往年节假日可能不休市等情况，在代码文件的备注中有所体现。
 
 ## 文件介绍
 ### check_day文件夹
-这是一个python package，如果只为查询所输入的日期是否交易日，只需要下载这个包就可以，目前数据只更新到2022年，输入某个具体的日期，is_tradeDay这个方法可以返回【是否为交易日】和【该日期的属性标签<交易日None,周末Weekend,节假日xxxx Day>】具体用法如下展示。
+做了一个package，如果只为查询所输入的日期是否交易日，只需要下载这个包就可以，目前数据只更新到2022年，输入某个具体的日期，is_tradeDay这个方法可以返回【是否为交易日】和【该日期的属性标签<交易日None,周末Weekend,节假日xxxx Day>】具体用法如下展示。
 
 #### is_tradeDay.py
 ```python
@@ -54,9 +56,12 @@ print(check_day.is_tradeDay(search_date3))
 #### densityPlot.py
 运行后，插入想查找的标的，会生成从2005-01-01或者是上市日期至今的涨跌幅度频率分布直方图。
 #### filter_stock.py & GBH_strategy.py
-将模型升级为策略，遍历沪深300和中证500的标的，先做一遍标的筛选，除去一些模型准确度不合格的标的，因此先运行filter_stock.py，里面训练集选取的日期可以根据实际修改。filter_stock.py因为要遍历接近三年的日期，运行时间相对较长，大概是6个小时上下。
-GBH_strategy.py设置回测开始到结束时间分别是2019年1月1日到2021年11月26日，仓位最多同一天持仓10只股票，可根据个人实际进行修改num_stock。
+将模型升级为策略，遍历沪深300和中证500的标的，先做一遍标的筛选，除去一些模型准确度不合格的标的，因此先运行filter_stock.py，里面训练集选取的日期可以根据实际修改。filter_stock.py没有多线程跑，运行时间相对较长，大概是6个小时上下，之后有时间会改进多线程运行。
+GBH_strategy.py设置回测开始到结束时间分别是2019年1月1日到2021年11月26日，可根据个人实际进行修改num_stock，表示同一天最多做多5只股票。由于CATS回测平台只能设置在开盘成交，因此买卖逻辑如下图：
 
+          第T日       第T+1日     第T+2日     第T+3日
+    盘前  预测T+1日①  预测T+2日②  预测T+3日③  预测T+4日④ 
+    开盘    买①         买②        买③卖①      买④卖②
 
 #### outputIndex文件夹
 主要放置一些从baostock的api拿下来的数据。
