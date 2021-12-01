@@ -8,7 +8,7 @@
 ![GBHMpic](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/f70a72aeeb7ff64372870a27932735f4388d0690/images/GBHMpic.png)
 
 ## 回测结果
-在中信自研的CATS量化平台上回测，文件详见GBH_strategy.py，模型表现如下：<br>
+策略选取的标的是沪深300和中证500成分股，在中信自研的CATS量化平台上执行回测，每日持仓5-10只股票，基准是沪深300，回测时间2019年-2021年，文件详见GBH_strategy.py，模型表现如下：<br>
 
     年化收益率29.42% 阿尔法12.85% 贝塔0.81 夏普比率1.24 收益率波动22.87% 信息比率0.57 最大回撤21.53%
 
