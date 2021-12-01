@@ -10,7 +10,7 @@
 ## 回测结果
 在中信自研的CATS量化平台上回测，文件详见GBH_strategy.py，模型表现如下：<br>
 
-    年化收益率是29.42% 阿尔法12.85% 贝塔0.81 夏普比率1.24 收益率波动22.87% 信息比率0.57 最大回撤21.53%
+    年化收益率29.42% 阿尔法12.85% 贝塔0.81 夏普比率1.24 收益率波动22.87% 信息比率0.57 最大回撤21.53%
 
 ![yieldcurve](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/4615263da66f0fdbb1390738cbc5a1523ee4ef49/images/yield%20curve.png)
 ## 注意事项
