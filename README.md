@@ -1,4 +1,6 @@
 # Guess By History Model
+* 标签：    `节假日`    `股票涨跌预测`    `股票走势预测`    `历史概率统计`    `回测`
+* Label：    `Holiday Label`    `Price Forecast`    `Trend Forecast`    `Probability Statistics`    `Backtest`
 
 ## 模型介绍
 这是一种基于统计概率方法的预测模型，认为存在某些产业、个股一年内在部分区间或者节假日前后涨跌一致，统计同时期的历史数据，预测涨跌概率/走势形态，并且给出粗择时建议。 <br> <br>
@@ -15,7 +17,9 @@
 ![yieldcurve](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/4615263da66f0fdbb1390738cbc5a1523ee4ef49/images/yield%20curve.png)
 ![stocktrend](https://github.com/China-chenzhibo/GuessByHistory-Model/blob/132f67bc26eef1042d66eadf512df128cf18ea1e/images/logstocktrend.png)
 ## 注意事项
-代码中已考虑停牌、新股上市数据异常、节假日重叠、往年节假日可能不休市等情况，在代码文件的备注中有所体现。
+代码中已考虑停牌、新股上市数据异常、节假日重叠、往年节假日可能不休市等情况，在代码文件的备注中有所体现。<br>
+* 涨跌说明：涨跌是由当日收盘价和前一日收盘价决定，其中如果幅度小于万三视为平，相当于交了股票交易费。<br>
+* 走势说明：日志会返回股票价格走势择时建议，走势是由预测当天开盘价和收盘价决定，共'高开高走'、'高开平走'、'高开低走'、'低开高走'、'低开平走'、'低开低走'、'平开高走'、'平开低走'、'平开平走'九种形态。
 
 ## 文件介绍
 ### check_day文件夹
@@ -57,7 +61,7 @@ print(check_day.is_tradeDay(search_date3))
 #### densityPlot.py
 运行后，插入想查找的标的，会生成从2005-01-01或者是上市日期至今的涨跌幅度频率分布直方图。
 #### filter_stock.py & GBH_strategy.py
-将模型升级为策略，遍历沪深300和中证500的标的，先做一遍标的筛选，除去一些模型准确度不合格的标的，因此先运行filter_stock.py，里面训练集选取的日期可以根据实际修改。filter_stock.py没有多线程跑，运行时间相对较长，大概是6个小时上下，之后有时间会改进多线程运行。
+将模型升级为策略，遍历沪深300和中证500的标的，先做一遍标的筛选，除去一些模型准确度不合格的标的，因此先运行filter_stock.py，里面训练集选取的日期可以根据实际修改。filter_stock.py没有多线程跑，运行时间相对较长，大概是6个小时上下，尝试用了线程池去优化，但是python一个进程最多只有一个cpu做处理，所以对于计算密集型的部分优化不明显，之后会尝试用多进程优化一下。
 GBH_strategy.py设置回测开始到结束时间分别是2019年1月1日到2021年11月26日，可根据个人实际进行修改num_stock，表示同一天最多做多5只股票。由于CATS回测平台只能设置在开盘成交，因此买卖逻辑如下图：
 
           第T日       第T+1日     第T+2日     第T+3日
